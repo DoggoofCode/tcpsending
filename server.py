@@ -9,7 +9,8 @@ def handle_client(conn, addr):
             if not data:
                 break
             print(f"Received data from {addr}: {data}")
-            conn.sendall(b'skibidi')
+            sending_data = f"I believe you send: {data.decode()}. I hope I am correct!"
+            conn.sendall(sending_data.encode())
     print(f"Connection with {addr} closed")
 
 def start_server(host='0.0.0.0', port=42595):
