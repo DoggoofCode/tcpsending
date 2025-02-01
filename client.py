@@ -8,4 +8,4 @@ def send_data(host='srv.vedjaggi.com', port=42595, message='Hello, Server!'):
         print(f"Received from server: {data.decode()}")
 
 if __name__ == "__main__":
-    send_data(message="gadagadegadagadago")
+    send_data(message=input("Enter message to send to server: "))
