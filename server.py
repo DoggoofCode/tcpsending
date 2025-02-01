@@ -1,4 +1,16 @@
 import socket
+import threading
+
+def handle_client(conn, addr):
+    print(f"Connected by {addr}")
+    with conn:
+        while True:
+            data = conn.recv(1024)
+            if not data:
+                break
+            print(f"Received data from {addr}: {data}")
+            conn.sendall(b'skibidi')
+    print(f"Connection with {addr} closed")
 
 def start_server(host='0.0.0.0', port=42595):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
@@ -8,14 +20,8 @@ def start_server(host='0.0.0.0', port=42595):
 
         while True:
             conn, addr = server_socket.accept()
-            with conn:
-                print(f"Connected by {addr}")
-                while True:
-                    data = conn.recv(1024)
-                    if not data:
-                        break
-                    print(f"Received data: {data}")
-                    conn.sendall(b'skibidi')
+            client_thread = threading.Thread(target=handle_client, args=(conn, addr))
+            client_thread.start()
 
 if __name__ == "__main__":
     start_server()
